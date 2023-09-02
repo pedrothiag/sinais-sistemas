@@ -34,7 +34,7 @@ pos_y = 320
 wave_list = []
 offset = 300
 
-ITERATIONS = 4
+ITERATIONS = 10
 
 run=True
 while run:
