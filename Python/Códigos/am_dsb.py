@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 
 #Cria uma funcao que retorna a estimativa para a transformada de Fourier em tempo contínuo de um sinal
 def ctfs (x,Ts):
-    Xk = fftshift(fft(x))
+    Xk = (1/Ts)*fftshift(fft(x))
     FreqAxis = (1/Ts)*np.arange(-0.5,0.5,1/len(Xk))
     return Xk, FreqAxis
 
@@ -18,8 +18,6 @@ t = np.arange(0, 1.0, Ts)
 #visualizado apenas uma pequena parte desses sinais
 timeView_start = 0.05       #Tempo inicial para visualizacao
 timeView_end = 0.1          #Tempo final para visualizacao
-indexView_start = np.where(t == timeView_start)[0][0]       #Encontra no vetor t o index correspondente
-indexView_end = np.where(t == timeView_end)[0][0]
 
 #Cria o sinal de mensagem e portadora
 fm = 100
@@ -30,11 +28,13 @@ carrier = np.cos(2*np.pi*fc*t)
 #Plot do sinal de mensagem e de portadora
 plt.figure()
 plt.subplot(211)
-plt.plot(t[indexView_start:indexView_end],mesg[indexView_start:indexView_end])
+plt.plot(t,mesg)
+plt.xlim(timeView_start,timeView_end)
 plt.title('Mensagem')
 plt.xlabel('t (segundos)')
 plt.subplot(212)
-plt.plot(t[indexView_start:indexView_end],carrier[indexView_start:indexView_end])
+plt.plot(t,carrier)
+plt.xlim(timeView_start,timeView_end)
 plt.title('Portadora')
 plt.xlabel('t (segundos)')
 plt.tight_layout()
@@ -46,7 +46,8 @@ Xk, FreqAxis = ctfs(x,Ts)
 #Plot do sinal modulado e do seu espectro de magnitude
 plt.figure()
 plt.subplot(211)
-plt.plot(t[indexView_start:indexView_end],x[indexView_start:indexView_end])
+plt.plot(t,x)
+plt.xlim(timeView_start,timeView_end)
 plt.title('x(t)')
 plt.xlabel('t (segundos)')
 plt.subplot(212)
@@ -67,7 +68,8 @@ Wk, FreqAxis = ctfs(w,Ts)
 #Plot do sinal re-modulado e do seu espectro de magnitude
 plt.figure()
 plt.subplot(211)
-plt.plot(t[indexView_start:indexView_end],w[indexView_start:indexView_end])
+plt.plot(t,w)
+plt.xlim(timeView_start,timeView_end)
 plt.title('w(t)')
 plt.xlabel('t (segundos)')
 plt.subplot(212)
@@ -89,7 +91,8 @@ Rk, FreqAxis = ctfs(r,Ts)
 #Plot do sinal demodulado e do seu espectro de magnitude
 plt.figure()
 plt.subplot(211)
-plt.plot(t[indexView_start:indexView_end],r[indexView_start:indexView_end])
+plt.plot(t,r)
+plt.xlim(timeView_start,timeView_end)
 plt.title('r(t)')
 plt.xlabel('t (segundos)')
 plt.subplot(212)
@@ -101,11 +104,13 @@ plt.tight_layout()
 #Plot do sinal demodulado e do sinal original
 plt.figure()
 plt.subplot(211)
-plt.plot(t[indexView_start:indexView_end],mesg[indexView_start:indexView_end])
+plt.plot(t,mesg)
+plt.xlim(timeView_start,timeView_end)
 plt.title('Mensagem')
 plt.xlabel('t (segundos)')
 plt.subplot(212)
-plt.plot(t[indexView_start:indexView_end],r[indexView_start:indexView_end])
+plt.plot(t,r)
+plt.xlim(timeView_start,timeView_end)
 plt.title('Recuperado')
 plt.xlabel('t (segundos)')
 plt.tight_layout()
